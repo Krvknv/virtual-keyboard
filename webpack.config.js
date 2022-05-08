@@ -1,6 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ESLintPlugin = require("eslint-webpack-plugin");
+const FaviconsWebpackPlugin = require("favicons-webpack-plugin");
 
 module.exports = {
   entry: "./src/scripts/index.js",
@@ -17,6 +18,7 @@ module.exports = {
       template: "src/index.html",
     }),
     new ESLintPlugin(),
+    new FaviconsWebpackPlugin("src/assets/image/icons/favicon.ico"),
   ],
   module: {
     rules: [

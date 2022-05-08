@@ -1,0 +1,19 @@
+$main-color: #877bc7;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  margin: 50px auto;
+  max-width: 756px;
+  width: 100%;
+}
+
+.textArea {
+  border: 3px solid $main-color;
+  border-radius: 10px;
+  font-size: 25px;
+}
