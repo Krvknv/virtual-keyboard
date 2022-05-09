@@ -11,6 +11,7 @@
   },
   "plugins": ["prettier"],
   "rules": {
+    "no-param-reassign": 0,
     "no-console": "off",
     "no-unused-vars": "warn",
     "prettier/prettier": [
