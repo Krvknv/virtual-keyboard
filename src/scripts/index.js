@@ -71,7 +71,7 @@ board.addEventListener("mousedown", (event) => {
         textArea.value += elem[lang][event.shiftKey || isCapsLock ? 1 : 0];
         break;
       case "number":
-        textArea.value += elem[lang][event.shiftKey || isCapsLock ? 1 : 0];
+        textArea.value += elem[lang][event.shiftKey ? 1 : 0];
         break;
 
       case "backspace":
@@ -99,6 +99,15 @@ board.addEventListener("mousedown", (event) => {
           isCapsLock = false;
         }
         break;
+      case "shiftLeft":
+      case "shiftRight":
+        document.querySelectorAll(".letter").forEach((item) => {
+          item.innerHTML = item.getAttribute(`data-upper-${lang}`);
+        });
+        document.querySelectorAll(".number").forEach((item) => {
+          item.innerHTML = item.getAttribute(`data-upper-${lang}`);
+        });
+        break;
       case "space":
         textArea.value += " ";
         break;
@@ -111,10 +120,21 @@ board.addEventListener("mousedown", (event) => {
   }
 });
 
-board.addEventListener("mouseup", () => {
+board.addEventListener("mouseup", (event) => {
   document.querySelectorAll(".pressed")?.forEach((el) => {
     el.classList.remove("pressed");
   });
+  if (
+    event.target.classList.contains("shiftLeft") ||
+    event.target.classList.contains("shiftRight")
+  ) {
+    document.querySelectorAll(".letter").forEach((item) => {
+      item.innerHTML = item.getAttribute(`data-low-${lang}`);
+    });
+    document.querySelectorAll(".number").forEach((item) => {
+      item.innerHTML = item.getAttribute(`data-low-${lang}`);
+    });
+  }
 });
 
 document.addEventListener("keydown", (event) => {
@@ -132,10 +152,26 @@ document.addEventListener("keydown", (event) => {
     if (key.classList.contains("arrow")) {
       textArea.value += key.innerHTML;
     }
-    if (key.classList.contains("letter") || key.classList.contains("number")) {
+    if (key.classList.contains("letter")) {
       textArea.value += key.getAttribute(
         `data-${event.shiftKey || isCapsLock ? "upper" : "low"}-${lang}`
       );
+    }
+    if (key.classList.contains("number")) {
+      textArea.value += key.getAttribute(
+        `data-${event.shiftKey ? "upper" : "low"}-${lang}`
+      );
+    }
+    if (
+      key.classList.contains("shiftLeft") ||
+      key.classList.contains("shiftRight")
+    ) {
+      document.querySelectorAll(".letter").forEach((item) => {
+        item.innerHTML = item.getAttribute(`data-upper-${lang}`);
+      });
+      document.querySelectorAll(".number").forEach((item) => {
+        item.innerHTML = item.getAttribute(`data-upper-${lang}`);
+      });
     }
     if (key.classList.contains("backspace")) {
       textArea.value = textArea.value.substring(0, textArea.value.length - 1);
@@ -177,6 +213,23 @@ document.addEventListener("keyup", (event) => {
         });
         isCapsLock = false;
       }
+    }
+    if (!isCapsLock) {
+      if (
+        key.classList.contains("shiftLeft") ||
+        key.classList.contains("shiftRight")
+      ) {
+        document.querySelectorAll(".letter").forEach((item) => {
+          item.innerHTML = item.getAttribute(`data-low-${lang}`);
+        });
+        document.querySelectorAll(".number").forEach((item) => {
+          item.innerHTML = item.getAttribute(`data-low-${lang}`);
+        });
+      }
+    } else {
+      document.querySelectorAll(".number").forEach((item) => {
+        item.innerHTML = item.getAttribute(`data-low-${lang}`);
+      });
     }
   }
 });
